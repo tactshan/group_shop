@@ -16,6 +16,7 @@ Route::get('/', function () {
 });
 
 Route::post('/register',"Reg\RegController@register");
+Route::post('/goodslist',"Goods\GoodsController@goodsList");
 
 //登录
 $router->post('group_shop/login','Login\LoginController@check_login');
