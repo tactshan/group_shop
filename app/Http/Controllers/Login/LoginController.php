@@ -13,7 +13,11 @@ class LoginController extends Controller
 	    echo mt_rand('1111','5555');
    	}
    	public function check_login()
-    	{
-        	echo 'ok';
-    	}
+    {
+        echo 'ok';
+        echo 'ok';
+        echo 'ok';
+        echo 'ok';
+        echo 'ok';
+    }
 }
