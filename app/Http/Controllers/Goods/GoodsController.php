@@ -13,35 +13,16 @@ class GoodsController extends Controller
         //验证是否登录
         $token=$request->input('token');
         $uid=$request->input('uid');
-        $key='redis_token_str:'.$uid;
-        $redis_token=Redis::hget($key,'utoken');
-        if(empty($uid)){
-            $data=[
-                'code'=>40001,
-                'msg'=>'你还没有登录，请先登录'
-            ];
-            echo json_encode($data);
-            exit;
-        }
-        if(empty($token)){
-            $data=[
-                'code'=>40001,
-                'msg'=>'你还没有登录，请先登录'
-            ];
-            echo json_encode($data);
-            exit;
-        }elseif ($token!=$redis_token){
-            $data=[
-                'code'=>40010,
-                'msg'=>'非法登录'
-            ];
-            echo json_encode($data);
-            exit;
+        $response=$this->checkToken($token,$uid);
+        if($response=='true'){
+            $info=GoodsModel::all()->toArray();
+            if(!empty($info)){
+                echo json_encode($info);
+            }
+        }else{
+            echo $response;
         }
 
-        $info=GoodsModel::all()->toArray();
-        if(!empty($info)){
-            echo json_encode($info);
-        }
+
     }
 }
