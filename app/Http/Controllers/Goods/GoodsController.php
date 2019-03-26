@@ -47,6 +47,7 @@ class GoodsController extends Controller
                 ];
                 echo json_encode($response);die;
             }
+            $data['uid']=$uid;
             echo json_encode($data);
         }else{
             echo $res;
