@@ -22,6 +22,6 @@ Route::post('/goodslist',"Goods\GoodsController@goodsList");
 $router->post('group_shop/login','Login\LoginController@check_login');
 
 //商品详情页
-Route::post('/group_shop/goods_detail',"Goods\GoodsController@goods_detail");
+$router->post('group_shop/goods_detail',"Goods\GoodsController@goods_detail");
 
 
