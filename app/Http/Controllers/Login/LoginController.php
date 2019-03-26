@@ -8,9 +8,11 @@ use App\Http\Controllers\Controller;
 class LoginController extends Controller
 {
     //
-	public function getSuccessToken()
+	public function getAccessToken($id)
 	{
-	    echo mt_rand('1111','5555');
+        $str=time().$id.mt_rand(111111,999999);
+        $token=substr($str,10,20);
+        return $token;
    	}
    	public function check_login()
     {
