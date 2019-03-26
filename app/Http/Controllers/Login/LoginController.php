@@ -32,10 +32,12 @@ class LoginController extends Controller
         }
        //验证通过，生成token
         $token = $this->getAccessToken($data->uid);
+        $uid = $data->uid;
         $resopnse=[
           'code'=>0,
           'msg'=>'success',
-            'token'=>$token
+            'token'=>$token,
+            'uid'=>$uid
         ];
         echo json_encode($resopnse);
     }
