@@ -21,3 +21,7 @@ Route::post('/goodslist',"Goods\GoodsController@goodsList");
 //登录
 $router->post('group_shop/login','Login\LoginController@check_login');
 
+
+//购物车
+$router->post('cart/list','Cart\CartController@list');
+
