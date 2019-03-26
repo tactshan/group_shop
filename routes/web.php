@@ -15,4 +15,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::any('/register',"Reg\RegController@register");
+Route::post('/register',"Reg\RegController@register");
