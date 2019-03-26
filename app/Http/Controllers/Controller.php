@@ -22,7 +22,7 @@ class Controller extends BaseController
                 'code'=>40001,
                 'msg'=>'你还没有登录，请先登录'
             ];
-            echo json_encode($data);
+            return json_encode($data);
         }
         if(empty($token)){
             $data=[
