@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Login;
 
+use App\Model\UserModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 
@@ -18,7 +19,24 @@ class LoginController extends Controller
     {
         $account = $request->input('account');
         $pwd = $request->input('pwd');
-        echo $account;
-        echo $pwd;
+        $where=[
+          'u_name'=>$account
+        ];
+        $data = UserModel::where($where)->first();
+        if(empty($data) || $data->u_pwd!==md5($pwd)){
+            $resopnse=[
+              'code'=>50001,
+              'msg'=>'账号或密码错误1！'
+            ];
+            echo json_encode($resopnse);die;
+        }
+       //验证通过，生成token
+        $token = $this->getAccessToken($data->uid);
+        $resopnse=[
+          'code'=>0,
+          'msg'=>'success',
+            'token'=>$token
+        ];
+        echo json_encode($resopnse);
     }
 }
