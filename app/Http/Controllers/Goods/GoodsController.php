@@ -15,7 +15,10 @@ class GoodsController extends Controller
         $uid=$request->input('uid');
         $response=$this->checkToken($token,$uid);
         if($response=='true'){
-            $info=GoodsModel::all()->toArray();
+            $data=GoodsModel::all()->toArray();
+            $info=[
+                'data'=>$data
+            ];
             if(!empty($info)){
                 echo json_encode($info);
             }
