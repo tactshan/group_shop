@@ -12,12 +12,11 @@ class LoginController extends Controller
 	{
 	    echo mt_rand('1111','5555');
    	}
-   	public function check_login()
+   	public function check_login(Request $request)
     {
-        echo 'ok';
-        echo 'ok';
-        echo 'ok';
-        echo 'ok';
-        echo 'ok';
+        $account = $request->input('account');
+        $pwd = $request->input('pwd');
+        echo $account;
+        echo $pwd;
     }
 }
