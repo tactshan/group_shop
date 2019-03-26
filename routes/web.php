@@ -15,4 +15,9 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+<<<<<<< HEAD
 Route::post('/register',"Reg\RegController@register");
+=======
+//登录
+$router->post('group_shop/login','Login\LoginController@check_login');
+>>>>>>> tactshan
