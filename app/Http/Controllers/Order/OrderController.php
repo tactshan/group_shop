@@ -70,6 +70,7 @@ class OrderController extends Controller
                     'order_id'=>$order_id,
                     'goods_id'=>$v->goods_id,
                     'goods_name'=>$v->goods_name,
+                    'buy_num'=>$v->buy_number,
                     'c_time'=>time(),
                     'uid'=>$uid,
 
