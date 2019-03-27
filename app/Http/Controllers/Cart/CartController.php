@@ -80,11 +80,7 @@ class CartController extends Controller
                 echo json_encode($response);die;
             }
         }else{
-            $response=[
-                'error'=>500,
-                'msg'=>'请先登录！'
-            ];
-            echo json_encode($response);die;
+            echo $response;die;
         }
     }
     public function list(Request $request){
