@@ -110,7 +110,7 @@ class OrderController extends Controller
             $where=[
                 'uid'=>$uid
             ];
-            $orderInfo=OrderModel::where($where)->get();
+            $orderInfo=OrderModel::where($where)->get()->toArray();
             if(empty($orderInfo)){
                 $info=[
                     'code'=>40111,
@@ -119,6 +119,7 @@ class OrderController extends Controller
                 echo json_encode($info);
             }else{
                 $info=[
+                    'code'=>1,
                     'data'=>$orderInfo
                 ];
                 echo json_encode($info);
