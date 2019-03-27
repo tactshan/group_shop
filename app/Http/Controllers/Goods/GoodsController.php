@@ -16,9 +16,9 @@ class GoodsController extends Controller
         $response=$this->checkToken($token,$uid);
         if($response=='true'){
             $key="goods";
-            $goodsInfo=unserialize(Redis::hget($key,'goodsInfo'));
+            $goodsInfo=Redis::hget($key,'goodsInfo');
             if(!empty($goodsInfo)){
-                $data=$goodsInfo;
+                $data=unserialize($goodsInfo);
             }else{
                 $data=GoodsModel::all()->toArray();
                 $goodsArr=serialize($data);
