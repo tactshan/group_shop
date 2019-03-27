@@ -34,4 +34,8 @@ $router->post('/addorder','Order\OrderController@createOrder');
 //订单列表展示
 $router->post('/orderlist','Order\OrderController@Orderlist');
 
+//订单详情页
+$router->post('/order_detail','Order\OrderController@orderDetail');
+
+
 
