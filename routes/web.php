@@ -31,5 +31,7 @@ $router->post('cart/addcart','Cart\CartController@addCart');
 
 //生成订单
 $router->post('/addorder','Order\OrderController@createOrder');
+//订单列表展示
+$router->post('/orderlist','Order\OrderController@Orderlist');
 
 

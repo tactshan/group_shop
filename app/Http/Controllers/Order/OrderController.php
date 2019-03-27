@@ -96,4 +96,33 @@ class OrderController extends Controller
         }
 
     }
+
+    //订单列表展示
+    public function orderList(Request $request){
+        $uid=$request->input('uid');
+        $token=$request->input('token');
+        //验证是否登录
+        $response=$this->checkToken($token,$uid);
+        if($response!="true"){
+            echo $response;
+        }else{
+            $where=[
+                'uid'=>$uid
+            ];
+            $orderInfo=OrderModel::where($where)->get();
+            if(empty($orderInfo)){
+                $info=[
+                    'code'=>40111,
+                    'msg'=>"您还没有订单",
+                ];
+                echo json_encode($info);
+            }else{
+                $info=[
+                    'code'=>1,
+                    'data'=>$orderInfo
+                ];
+                echo json_encode($info);
+            }
+        }
+    }
 }
