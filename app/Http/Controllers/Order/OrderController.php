@@ -119,7 +119,6 @@ class OrderController extends Controller
                 echo json_encode($info);
             }else{
                 $info=[
-                    'code'=>1,
                     'data'=>$orderInfo
                 ];
                 echo json_encode($info);
