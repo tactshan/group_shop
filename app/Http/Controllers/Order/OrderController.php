@@ -125,4 +125,59 @@ class OrderController extends Controller
             }
         }
     }
+
+    //订单详情页
+    public function orderDetail(Request $request)
+    {
+        //验证用户身份
+        $uid=$request->input('uid');
+        $token=$request->input('token');
+        $response=$this->checkToken($token,$uid);
+        if($response=='true'){
+            //根据订单号查询订单表获取订单id
+            $order_num=$request->input('order_num');
+            if(empty($order_num)){
+                $response=[
+                  'code'=>50050,
+                  'msg'=>'订单号为空'
+                ];
+                echo json_encode($response);die;
+            }
+            $order_where=[
+                'order_num'=>$order_num
+            ];
+            $order_data=OrderModel::where($order_where)->first();
+            if(empty($order_data)){
+                $response=[
+                    'code'=>50051,
+                    'msg'=>'订单数据为空'
+                ];
+                echo json_encode($response);die;
+            }
+            $order_id = $order_data->order_id;
+            //根据订单id查询订单详情表
+            $order_detail_where=[
+                'order_id'=>$order_id
+            ];
+            $detail_data = DetailModel::where($order_detail_where)->get()->toArray();
+            if(empty($detail_data)){
+                $response=[
+                    'code'=>50052,
+                    'msg'=>'订单数据为空'
+                ];
+                echo json_encode($response);die;
+            }
+            foreach($detail_data as $k=>$v){
+                $v['order_num']=$order_num;
+                $response_detail_data[]=$v;
+            }
+            $data=[
+              'data'=>$response_detail_data
+            ];
+            echo json_encode($data);
+        }else{
+            echo $response;
+        }
+
+    }
 }
