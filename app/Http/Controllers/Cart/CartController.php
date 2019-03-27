@@ -12,10 +12,17 @@ class CartController extends Controller
     public function list(Request $request){
         $uid=$request->input('uid');
         $token=$request->input('token');
-        $this->checkToken($token,$uid);
-        $arr=CartModel::where(['uid'=>$uid])->get()->toArray();
-        if(!empty($arr)){
-            echo json_encode($arr);
+        $response=$this->checkToken($token,$uid);
+        if($response=='true'){
+            $arr=CartModel::where(['uid'=>$uid])->get()->toArray();
+            $data=[
+                'data'=>$arr
+            ];
+            if(!empty($data)){
+                echo json_encode($data);
+            }
+        }else{
+            echo $response;
         }
     }
 }
