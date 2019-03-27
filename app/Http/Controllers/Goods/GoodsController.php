@@ -57,43 +57,31 @@ class GoodsController extends Controller
     public function goods_detail(Request $request)
     {
         $goods_id = $request->input('goods_id');
-//        $uid = $request->input('uid');
-//        $token = $request->input('token');
-        //防非法
-//        $res = $this->checkToken($token,$uid);
-//        if($res=='true'){
-            $key="goods_id:".$goods_id;
-            $goods_info=Redis::hget($key,'goods');
-            if(empty($goods_id)){
-                $data=unserialize($goods_info);
-            }else{
-                $where=[
-                    'goods_id'=>$goods_id
-                ];
-                $data = GoodsModel::where($where)->first()->toArray();
-                $goodsArr=serialize($data);
-                Redis::hset($key,'goods',$goodsArr);
-            }
-//        $res = $this->checkToken($token, $uid);
-//        if ($res == 'true') {
-            $where = [
-                'goods_id' => $goods_id
+        $key="goods_id:".$goods_id;
+        $goods_info=Redis::hget($key,'goods');
+        if(empty($goods_id)){
+            $data=unserialize($goods_info);
+        }else{
+            $where=[
+                'goods_id'=>$goods_id
             ];
             $data = GoodsModel::where($where)->first()->toArray();
-            //判断商品是否存在
-            if (empty($data)) {
-                $response = [
-                    'code' => 50010,
-                    'msg' => '商品不存在！'
-                ];
-                echo json_encode($response);
-                die;
-            }
-//            $data['uid'] = $uid;
+            $goodsArr=serialize($data);
+            Redis::hset($key,'goods',$goodsArr);
+        }
+        $where = [
+            'goods_id' => $goods_id
+        ];
+        $data = GoodsModel::where($where)->first()->toArray();
+        //判断商品是否存在
+        if (empty($data)) {
+            $response = [
+                'code' => 50010,
+                'msg' => '商品不存在！'
+            ];
+            echo json_encode($response);die;
+        }
             echo json_encode($data);
-//        } else {
-//            echo $res;
-//        }
     }
 
     //商品点赞
