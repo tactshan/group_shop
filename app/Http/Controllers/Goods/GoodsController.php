@@ -62,6 +62,16 @@ class GoodsController extends Controller
         //防非法
 //        $res = $this->checkToken($token,$uid);
 //        if($res=='true'){
+            $access_key="goods_access";
+            $num=Redis::hGet($access_key,"$goods_id");
+            if(empty($num)){
+                Redis::hSet($access_key,"$goods_id",'1');
+            }else{
+                $num+=1;
+                Redis::hSet($access_key,"$goods_id",$num);
+            }
+
+            $access_num=$num=Redis::hGet($access_key,"$goods_id");
             $key="goods_id:".$goods_id;
             $goods_info=Redis::hget($key,'goods');
             if(empty($goods_id)){
@@ -89,6 +99,7 @@ class GoodsController extends Controller
                 echo json_encode($response);
                 die;
             }
+            $data['access_num']=$access_num;
 //            $data['uid'] = $uid;
             echo json_encode($data);
 //        } else {
