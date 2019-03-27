@@ -118,6 +118,9 @@ class OrderController extends Controller
                 ];
                 echo json_encode($info);
             }else{
+                foreach ($orderInfo as $k=>$v){
+                    $orderInfo[$k]['c_time']=date('Y-m-d',$v['c_time']);
+                }
                 $info=[
                     'code'=>1,
                     'data'=>$orderInfo
