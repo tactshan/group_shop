@@ -27,7 +27,11 @@ class CartController extends Controller
             $total_price=$request->input('total_price');
             $goods_info=GoodsModel::where(['goods_id'=>$goods_id])->first();
             if(!empty($goods_info)){
-                $res=CartModel::where(['goods_id'=>$goods_id])->first();
+                $where=[
+                    'goods_id'=>$goods_id,
+                    'uid'=>$uid
+                ];
+                $res=CartModel::where($where)->first();
                 if($res){
                     $data=[
                         'buy_num'=>$res->buy_num+$buy_num,
