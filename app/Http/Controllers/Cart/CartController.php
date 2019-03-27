@@ -13,25 +13,26 @@ class CartController extends Controller
     public function addCart(Request $request){
         $uid=$request->input('uid');
         $token=$request->input('token');
-        $response=$this->checkToken($token,$uid);
+        //$response=$this->checkToken($token,$uid);
+        $response='true';
         if($response=='true'){
             $goods_id=$request->input('goods_id');
             if(empty($goods_id)){
-                $data=[
+                $response=[
                     'error'=>403,
                     'msg'=>'商品不存在'
                 ];
-                echo json_encode($data);die;
+                echo json_encode($response);die;
             }
             $buy_num=$request->input('buy_num');
             $total_price=$request->input('total_price');
             $goods_info=GoodsModel::where(['goods_id'=>$goods_id])->first();
             if(!empty($goods_info)){
                 $res=CartModel::where(['goods_id'=>$goods_id])->first();
-                //print_r($res);
                 if($res){
                     $data=[
-                        'buy_num'=>$res->buy_num+$buy_num
+                        'buy_num'=>$res->buy_num+$buy_num,
+                        'total_price'=>$res->total_price+$total_price
                     ];
                     $where=[
                         'goods_id'=>$goods_id,
@@ -39,11 +40,11 @@ class CartController extends Controller
                     ];
                     $res1=CartModel::where($where)->update($data);
                     if($res1){
-                        $data=[
+                        $response=[
                             'error'=>0,
                             'msg'=>'商品已存在，添加成功'
                         ];
-                        echo json_encode($data);die;
+                        echo json_encode($response);die;
                     }
                 }else{
                     $data=[
@@ -57,32 +58,33 @@ class CartController extends Controller
                     ];
                     $res2=CartModel::insert($data);
                     if($res2){
-                        $data=[
+                        $response=[
                             'error'=>0,
-                            'msg'=>'添加成功'
+                            'msg'=>'添加成功',
+
                         ];
-                        echo json_encode($data);die;
+                        echo json_encode($response);die;
                     }else{
-                        $data=[
+                        $response=[
                             'error'=>500,
                             'msg'=>'添加失败'
                         ];
-                        echo json_encode($data);die;
+                        echo json_encode($response);die;
                     }
                 }
             }else{
-                $data=[
+                $response=[
                     'error'=>404,
                     'msg'=>'商品信息不存在'
                 ];
-                echo json_encode($data);die;
+                echo json_encode($response);die;
             }
         }else{
-            $data=[
+            $response=[
                 'error'=>500,
                 'msg'=>'请先登录！'
             ];
-            echo json_encode($data);die;
+            echo json_encode($response);die;
         }
     }
     public function list(Request $request){
