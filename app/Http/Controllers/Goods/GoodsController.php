@@ -12,11 +12,6 @@ class GoodsController extends Controller
     //商品列表页
     public function goodsList(Request $request)
     {
-        //验证是否登录
-//        $token=$request->input('token');
-//        $uid=$request->input('uid');
-//        $response=$this->checkToken($token,$uid);
-//        if($response=='true'){
             $key="goods";
             $goodsInfo=Redis::hget($key,'goodsInfo');
             if(!empty($goodsInfo)){
@@ -33,24 +28,6 @@ class GoodsController extends Controller
             if(!empty($info)){
                 echo json_encode($info);
             }
-        $key = "goods";
-        $goodsInfo = unserialize(Redis::hget($key, 'goodsInfo'));
-        if (!empty($goodsInfo)) {
-            $data = $goodsInfo;
-        } else {
-            $data = GoodsModel::all()->toArray();
-            $goodsArr = serialize($data);
-            Redis::hset($key, 'goodsInfo', $goodsArr);
-        }
-        $info = [
-            'data' => $data
-        ];
-        if (!empty($info)) {
-            echo json_encode($info);
-        }
-//        }else{
-//            echo $response;
-//        }
     }
 
     //商品详情页
