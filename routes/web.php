@@ -26,5 +26,6 @@ $router->post('group_shop/goods_detail',"Goods\GoodsController@goods_detail");
 
 //购物车
 $router->post('cart/list','Cart\CartController@list');
+$router->post('cart/addcart','Cart\CartController@addCart');
 
 
