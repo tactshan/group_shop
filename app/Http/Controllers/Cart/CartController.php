@@ -13,9 +13,8 @@ class CartController extends Controller
     public function addCart(Request $request){
         $uid=$request->input('uid');
         $token=$request->input('token');
-        //$response=$this->checkToken($token,$uid);
-        $response='true';
-        if($response=='true'){
+        $respon=$this->checkToken($token,$uid);
+        if($respon=='true'){
             $goods_id=$request->input('goods_id');
             if(empty($goods_id)){
                 $response=[
@@ -80,7 +79,7 @@ class CartController extends Controller
                 echo json_encode($response);die;
             }
         }else{
-            echo $response;die;
+            echo $respon;die;
         }
     }
     public function list(Request $request){
