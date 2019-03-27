@@ -28,3 +28,7 @@ $router->post('group_shop/goods_detail',"Goods\GoodsController@goods_detail");
 $router->post('cart/list','Cart\CartController@list');
 
 
+//生成订单
+$router->post('/addorder','Order\OrderController@createOrder');
+
+
