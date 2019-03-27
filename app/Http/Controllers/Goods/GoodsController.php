@@ -23,6 +23,7 @@ class GoodsController extends Controller
                 $data=GoodsModel::all()->toArray();
                 $goodsArr=serialize($data);
                 Redis::hset($key,'goodsInfo',$goodsArr);
+                Redis::expire($key,86400);
             }
             $info=[
                 'data'=>$data
@@ -46,10 +47,18 @@ class GoodsController extends Controller
         //防非法
         $res = $this->checkToken($token,$uid);
         if($res=='true'){
-            $where=[
-                'goods_id'=>$goods_id
-            ];
-            $data = GoodsModel::where($where)->first()->toArray();
+            $key="goods_id:".$goods_id;
+            $goods_info=Redis::hget($key,'goods');
+            if(empty($goods_id)){
+                $data=unserialize($goods_info);
+            }else{
+                $where=[
+                    'goods_id'=>$goods_id
+                ];
+                $data = GoodsModel::where($where)->first()->toArray();
+                $goodsArr=serialize($data);
+                Redis::hset($key,'goods',$goodsArr);
+            }
             //判断商品是否存在
             if(empty($data)){
                 $response=[
