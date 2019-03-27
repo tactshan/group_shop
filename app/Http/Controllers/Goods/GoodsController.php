@@ -16,12 +16,13 @@ class GoodsController extends Controller
         $response=$this->checkToken($token,$uid);
         if($response=='true'){
             $key="goods";
-            $goodsInfo=Redis::hget($key,'goodsInfo');
+            $goodsInfo=unserialize(Redis::hget($key,'goodsInfo'));
             if(!empty($goodsInfo)){
                 $data=$goodsInfo;
             }else{
                 $data=GoodsModel::all()->toArray();
-                Redis::hset($key,'goodsInfo',$data);
+                $goodsArr=serialize($data);
+                Redis::hset($key,'goodsInfo',$goodsArr);
             }
             $info=[
                 'data'=>$data
