@@ -9,27 +9,28 @@ use Illuminate\Support\Facades\Redis;
 
 class GoodsController extends Controller
 {
-    public function goodsList(Request $request){
+    public function goodsList(Request $request)
+    {
         //验证是否登录
 //        $token=$request->input('token');
 //        $uid=$request->input('uid');
 //        $response=$this->checkToken($token,$uid);
 //        if($response=='true'){
-            $key="goods";
-            $goodsInfo=unserialize(Redis::hget($key,'goodsInfo'));
-            if(!empty($goodsInfo)){
-                $data=$goodsInfo;
-            }else{
-                $data=GoodsModel::all()->toArray();
-                $goodsArr=serialize($data);
-                Redis::hset($key,'goodsInfo',$goodsArr);
-            }
-            $info=[
-                'data'=>$data
-            ];
-            if(!empty($info)){
-                echo json_encode($info);
-            }
+        $key = "goods";
+        $goodsInfo = unserialize(Redis::hget($key, 'goodsInfo'));
+        if (!empty($goodsInfo)) {
+            $data = $goodsInfo;
+        } else {
+            $data = GoodsModel::all()->toArray();
+            $goodsArr = serialize($data);
+            Redis::hset($key, 'goodsInfo', $goodsArr);
+        }
+        $info = [
+            'data' => $data
+        ];
+        if (!empty($info)) {
+            echo json_encode($info);
+        }
 //        }else{
 //            echo $response;
 //        }
@@ -41,27 +42,38 @@ class GoodsController extends Controller
     public function goods_detail(Request $request)
     {
         $goods_id = $request->input('goods_id');
-        $uid = $request->input('uid');
-        $token = $request->input('token');
+//        $uid = $request->input('uid');
+//        $token = $request->input('token');
         //防非法
-        $res = $this->checkToken($token,$uid);
-        if($res=='true'){
-            $where=[
-                'goods_id'=>$goods_id
+//        $res = $this->checkToken($token, $uid);
+//        if ($res == 'true') {
+            $where = [
+                'goods_id' => $goods_id
             ];
             $data = GoodsModel::where($where)->first()->toArray();
             //判断商品是否存在
-            if(empty($data)){
-                $response=[
-                    'code'=>50010,
-                    'msg'=>'商品不存在！'
+            if (empty($data)) {
+                $response = [
+                    'code' => 50010,
+                    'msg' => '商品不存在！'
                 ];
-                echo json_encode($response);die;
+                echo json_encode($response);
+                die;
             }
-            $data['uid']=$uid;
+//            $data['uid'] = $uid;
             echo json_encode($data);
-        }else{
-            echo $res;
-        }
+//        } else {
+//            echo $res;
+//        }
     }
+
+    //商品点赞
+    public function give_a_like(Request $request)
+    {
+        $goods_id = $request->input('goods_id');
+        //根据商品id增加点赞数量
+        $like_key = 'goods_give_a_like';
+
+    }
+
 }
