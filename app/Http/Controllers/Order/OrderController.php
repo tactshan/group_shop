@@ -176,6 +176,8 @@ class OrderController extends Controller
                 $response_detail_data[]=$v;
             }
             $data=[
+                'code'=>0,
+                'msg'=>'success',
               'data'=>$response_detail_data
             ];
             echo json_encode($data);
