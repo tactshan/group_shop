@@ -18,7 +18,7 @@ class CartController extends Controller
             $goods_id=$request->input('goods_id');
             if(empty($goods_id)){
                 $response=[
-                    'error'=>403,
+                    'code'=>403,
                     'msg'=>'商品不存在'
                 ];
                 echo json_encode($response);die;
@@ -44,7 +44,7 @@ class CartController extends Controller
                     $res1=CartModel::where($where)->update($data);
                     if($res1){
                         $response=[
-                            'error'=>0,
+                            'code'=>0,
                             'msg'=>'商品已存在，添加成功'
                         ];
                         echo json_encode($response);die;
@@ -62,14 +62,14 @@ class CartController extends Controller
                     $res2=CartModel::insert($data);
                     if($res2){
                         $response=[
-                            'error'=>0,
+                            'code'=>0,
                             'msg'=>'添加成功',
 
                         ];
                         echo json_encode($response);die;
                     }else{
                         $response=[
-                            'error'=>500,
+                            'code'=>500,
                             'msg'=>'添加失败'
                         ];
                         echo json_encode($response);die;
@@ -77,7 +77,7 @@ class CartController extends Controller
                 }
             }else{
                 $response=[
-                    'error'=>404,
+                    'code'=>404,
                     'msg'=>'商品信息不存在'
                 ];
                 echo json_encode($response);die;
@@ -99,7 +99,7 @@ class CartController extends Controller
                 echo json_encode($data);
             }else{
                 $arr=[
-                    'error'=>502,
+                    'code'=>502,
                     'msg'=>'购物车为空'
                 ];
                 echo json_encode($arr);
