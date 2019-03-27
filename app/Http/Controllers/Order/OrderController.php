@@ -71,6 +71,7 @@ class OrderController extends Controller
                     'goods_id'=>$v->goods_id,
                     'goods_name'=>$v->goods_name,
                     'buy_num'=>$v->buy_number,
+                    'goods_price'=>$v->goods_price,
                     'c_time'=>time(),
                     'uid'=>$uid,
 
