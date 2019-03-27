@@ -57,11 +57,6 @@ class GoodsController extends Controller
     public function goods_detail(Request $request)
     {
         $goods_id = $request->input('goods_id');
-//        $uid = $request->input('uid');
-//        $token = $request->input('token');
-        //防非法
-//        $res = $this->checkToken($token,$uid);
-//        if($res=='true'){
             $access_key="goods_access";
             $num=Redis::hGet($access_key,"$goods_id");
             if(empty($num)){
@@ -70,7 +65,6 @@ class GoodsController extends Controller
                 $num+=1;
                 Redis::hSet($access_key,"$goods_id",$num);
             }
-
             $access_num=$num=Redis::hGet($access_key,"$goods_id");
             $key="goods_id:".$goods_id;
             $goods_info=Redis::hget($key,'goods');
@@ -84,27 +78,16 @@ class GoodsController extends Controller
                 $goodsArr=serialize($data);
                 Redis::hset($key,'goods',$goodsArr);
             }
-//        $res = $this->checkToken($token, $uid);
-//        if ($res == 'true') {
-            $where = [
-                'goods_id' => $goods_id
-            ];
-            $data = GoodsModel::where($where)->first()->toArray();
             //判断商品是否存在
             if (empty($data)) {
                 $response = [
                     'code' => 50010,
                     'msg' => '商品不存在！'
                 ];
-                echo json_encode($response);
-                die;
+                echo json_encode($response);die;
             }
             $data['access_num']=$access_num;
-//            $data['uid'] = $uid;
             echo json_encode($data);
-//        } else {
-//            echo $res;
-//        }
     }
 
     //商品点赞
