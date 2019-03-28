@@ -77,6 +77,7 @@ class CenterController extends Controller
         }
         if($data){
             $info=[
+                'type'=>$type,
                 'code'=>1,
                 'msg'=>$data
             ];
