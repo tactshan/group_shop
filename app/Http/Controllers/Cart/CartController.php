@@ -110,6 +110,7 @@ class CartController extends Controller
     }
     public function delCart(Request $request){
         $cart_id=$request->input('cart_id');
+        echo $cart_id;die;
         if(empty($cart_id)){
             $arr=[
                 'code'=>404,
