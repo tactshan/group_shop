@@ -33,6 +33,7 @@ class GoodsController extends Controller
     //商品详情页
     public function goods_detail(Request $request)
     {
+        $uid = $request->input('uid');
         $goods_id = $request->input('goods_id');
             $access_key="goods_access";
             $num=Redis::hGet($access_key,"$goods_id");
@@ -64,6 +65,16 @@ class GoodsController extends Controller
                 echo json_encode($response);die;
             }
             $data['access_num']=$access_num;
+            $collect="collect_number_goods_id:".$goods_id;
+            $data['collect_num']=$num=Redis::zScore($collect,$goods_id);
+            $collect_u="collect_number_uid:".$uid;
+            $num=Redis::zScore($collect_u,$goods_id);
+            if(empty($num)){
+                $goods_type=0;
+            }else{
+                $goods_type=1;
+            }
+            $data['goods_type']=$goods_type;
             echo json_encode($data);
     }
 
@@ -76,4 +87,38 @@ class GoodsController extends Controller
 
     }
 
+
+
+
+
+
+
+
+
+
+    public function collect(Request $request){
+        $goods_id=$request->input('goods_id');
+        $uid=$request->input('uid');
+        $type=$request->input('type');
+        $token=$request->input('token');
+        $time=time();
+        $collect="collect_number_goods_id:".$goods_id;
+        $collect_u="collect_number_uid:".$uid;
+        $responce=$this->checkToken($token,$uid);
+        if($responce=='true'){
+            if($type==1){
+                Redis::zIncrBy($collect,1,$goods_id);
+                Redis::zAdd($collect_u,$time,$goods_id);
+                $arr=[
+                    'error'=>0,
+                    'msg'=>'收藏成功'
+                ];
+                echo json_encode($arr);
+            }else{
+                Redis::zRem($collect_u,$goods_id);
+            }
+        }else{
+            echo $responce;
+        }
+    }
 }
