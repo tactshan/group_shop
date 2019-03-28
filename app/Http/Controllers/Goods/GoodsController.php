@@ -150,7 +150,7 @@ class GoodsController extends Controller
         $collect_u="collect_number_uid:".$uid;
         $responce=$this->checkToken($token,$uid);
         if($responce=='true'){
-            if($type==1){
+            if($type==0){
                 Redis::zIncrBy($collect,1,$goods_id);
                 Redis::zAdd($collect_u,$time,$goods_id);
                 $arr=[
