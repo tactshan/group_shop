@@ -108,4 +108,28 @@ class CartController extends Controller
             echo $response;
         }
     }
+    public function delCart(Request $request){
+        $cart_id=$request->input('cart_id');
+        if(empty($cart_id)){
+            $arr=[
+                'code'=>404,
+                'msg'=>'购物车商品不存在'
+            ];
+            echo json_encode($arr);die;
+        }
+        $res=CartModel::where(['cart_id'=>$cart_id])->delete();
+        if($res){
+            $arr=[
+                'code'=>0,
+                'msg'=>'删除成功'
+            ];
+            echo json_encode($arr);
+        }else{
+            $arr=[
+                'code'=>500,
+                'msg'=>'删除失败'
+            ];
+            echo json_encode($arr);die;
+        }
+    }
 }

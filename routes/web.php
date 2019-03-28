@@ -27,6 +27,7 @@ $router->post('group_shop/goods_detail',"Goods\GoodsController@goods_detail");
 //购物车
 $router->post('cart/list','Cart\CartController@list');
 $router->post('cart/addcart','Cart\CartController@addCart');
+$router->post('cart/delcart','Cart\CartController@delCart');
 //生成订单
 $router->post('/addorder','Order\OrderController@createOrder');
 //订单列表展示
