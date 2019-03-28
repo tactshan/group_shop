@@ -81,8 +81,16 @@ class GoodsController extends Controller
             }
             //获取点赞次数
             $always_key = 'goods_give_a_like';
+            $always_key_type='goods_give_a_like'.$uid;
             $lick_num = Redis::zScore($always_key,$goods_id);
+            $like_type1 = Redis::zScore($always_key_type,$goods_id);
+            if(empty($like_type1)){
+                $like_type=0;
+            }else{
+                $like_type=1;
+            }
             $data['goods_type']=$goods_type;
+            $data['like_type']=$like_type;
             $data['like_num']=$lick_num;
             echo json_encode($data);
     }
