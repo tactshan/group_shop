@@ -33,8 +33,9 @@ class GoodsController extends Controller
     //商品详情页
     public function goods_detail(Request $request)
     {
-        $uid = $request->input('uid');
-        $goods_id = $request->input('goods_id');
+            $uid = $request->input('uid');
+            $goods_id = $request->input('goods_id');
+            //记录浏览量
             $access_key="goods_access";
             $num=Redis::hGet($access_key,"$goods_id");
             if(empty($num)){
@@ -44,29 +45,33 @@ class GoodsController extends Controller
                 Redis::hSet($access_key,"$goods_id",$num);
             }
             $access_num=$num=Redis::hGet($access_key,"$goods_id");
+            //获取商品详情缓存数据
             $key="goods_id:".$goods_id;
             $goods_info=Redis::hget($key,'goods');
-            if(empty($goods_id)){
+            if(!empty($goods_info)){
                 $data=unserialize($goods_info);
             }else{
                 $where=[
                     'goods_id'=>$goods_id
                 ];
                 $data = GoodsModel::where($where)->first()->toArray();
+                //判断商品是否存在
+                if (empty($data)) {
+                    $response = [
+                        'code' => 50010,
+                        'msg' => '商品不存在！'
+                    ];
+                    echo json_encode($response);die;
+                }
                 $goodsArr=serialize($data);
                 Redis::hset($key,'goods',$goodsArr);
             }
-            //判断商品是否存在
-            if (empty($data)) {
-                $response = [
-                    'code' => 50010,
-                    'msg' => '商品不存在！'
-                ];
-                echo json_encode($response);die;
-            }
             $data['access_num']=$access_num;
+            //商品收藏
             $collect="collect_number_goods_id:".$goods_id;
+            //获取收藏次数
             $data['collect_num']=$num=Redis::zScore($collect,$goods_id);
+            //获取用户是否收藏
             $collect_u="collect_number_uid:".$uid;
             $num=Redis::zScore($collect_u,$goods_id);
             if(empty($num)){
@@ -74,7 +79,11 @@ class GoodsController extends Controller
             }else{
                 $goods_type=1;
             }
+            //获取点赞次数
+            $always_key = 'goods_give_a_like';
+            $lick_num = Redis::zScore($always_key,$goods_id);
             $data['goods_type']=$goods_type;
+            $data['like_num']=$lick_num;
             echo json_encode($data);
     }
 
@@ -130,15 +139,7 @@ class GoodsController extends Controller
 
     }
 
-
-
-
-
-
-
-
-
-
+    //点击收藏
     public function collect(Request $request){
         $goods_id=$request->input('goods_id');
         $uid=$request->input('uid');

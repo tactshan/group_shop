@@ -42,6 +42,7 @@ class CenterController extends Controller
         }
     }
 
+    //功能模块
     public function  effect(Request $request){
         $uid=$request->input('uid');
         $type=$request->input('type');
