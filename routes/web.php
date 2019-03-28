@@ -41,3 +41,15 @@ $router->post('/order_detail','Order\OrderController@orderDetail');
 
 //商品点赞
 $router->post('/give_a_like','Order\GoodsController@give_a_like');
+
+
+
+
+
+
+
+
+//个人中心
+$router->post('/center','Center\CenterController@index');
+//功能模块
+$router->post('/effect','Center\CenterController@effect');
