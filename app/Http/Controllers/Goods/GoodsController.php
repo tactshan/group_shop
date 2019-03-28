@@ -130,15 +130,7 @@ class GoodsController extends Controller
 
     }
 
-
-
-
-
-
-
-
-
-
+    //点击收藏
     public function collect(Request $request){
         $goods_id=$request->input('goods_id');
         $uid=$request->input('uid');
