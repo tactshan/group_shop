@@ -110,7 +110,6 @@ class CartController extends Controller
     }
     public function delCart(Request $request){
         $cart_id=$request->input('cart_id');
-        echo $cart_id;die;
         if(empty($cart_id)){
             $arr=[
                 'code'=>404,
@@ -118,7 +117,7 @@ class CartController extends Controller
             ];
             echo json_encode($arr);die;
         }
-        $res=CartModel::where(['cart_id'=>$cart_id])->delete();
+        $res=CartModel::where(['id'=>$cart_id])->delete();
         if($res){
             $arr=[
                 'code'=>0,
