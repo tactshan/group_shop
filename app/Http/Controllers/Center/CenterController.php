@@ -65,6 +65,11 @@ class CenterController extends Controller
             $data=OrderModel::where($where)->where('order_status','!=',2)->get()->toArray();
             foreach ($data as $k=>$v){
                 $data[$k]['c_time']=date('Y-m-d H:i:s',$v['c_time']);
+                if($v['order_status']==0){
+                    $data[$k]['order_status']='待支付';
+                }else if($v['order_status']==0){
+                    $data[$k]['order_status']='已支付';
+                }
             }
         }elseif($type=='cart'){
             $where=[
