@@ -161,6 +161,11 @@ class GoodsController extends Controller
             }else{
                 Redis::zRem($collect_u,$goods_id);
                 Redis::zIncrBy($collect,-1,$goods_id);
+                $arr=[
+                    'code'=>1,
+                    'msg'=>'取消收藏成功'
+                ];
+                echo json_encode($arr);
             }
         }else{
             echo $responce;
