@@ -86,7 +86,7 @@ class CenterController extends Controller
             $info=[
                 'code'=>40111,
                 'msg'=>"您还没有进行此操作",
-            ];
+            ] ;
             echo json_encode($info);
         }
     }

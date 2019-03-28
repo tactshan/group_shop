@@ -8,6 +8,7 @@ use App\Model\GoodsModel;
 use App\Model\OrderModel;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 
 class OrderController extends Controller
 {
@@ -109,9 +110,9 @@ class OrderController extends Controller
             echo $response;
         }else{
             $where=[
-                'uid'=>$uid
+                'uid'=>$uid,
             ];
-            $orderInfo=OrderModel::where($where)->get()->toArray();
+            $orderInfo=OrderModel::where($where)->where('order_status','!=',2)->get()->toArray();
             if(empty($orderInfo)){
                 $info=[
                     'code'=>40111,
@@ -186,5 +187,29 @@ class OrderController extends Controller
             echo $response;
         }
 
+    }
+
+    //订单删除
+    public function orderDelete(Request $request)
+    {
+        $order_id=$request->input('order_id');
+        if(empty($order_id)){
+            $response=[
+              'code'=>50501,
+              'msg'=>'订单号不能为空！'
+            ];
+            echo json_encode($response);die;
+        }
+        $where=[
+          'order_id'=>$order_id
+        ];
+        $res=OrderModel::where($where)->update(['order_status'=>2]);
+        if($res){
+            $response=[
+              'code'=>0,
+              'msg'=>'success'
+            ];
+            echo json_encode($response);die;
+        }
     }
 }
