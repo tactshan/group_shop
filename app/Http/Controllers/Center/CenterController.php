@@ -64,7 +64,7 @@ class CenterController extends Controller
             ];
             $data=OrderModel::where($where)->where('order_status','!=',2)->get()->toArray();
 
-        }else if($type='cart'){
+        }else if($type=='cart'){
             $where=[
                 'uid'=>$uid
             ];
