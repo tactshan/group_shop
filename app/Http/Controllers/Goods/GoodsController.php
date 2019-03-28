@@ -159,6 +159,7 @@ class GoodsController extends Controller
                 echo json_encode($arr);
             }else{
                 Redis::zRem($collect_u,$goods_id);
+                Redis::zIncrBy($collect,-1,$goods_id);
             }
         }else{
             echo $responce;
