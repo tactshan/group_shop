@@ -34,6 +34,9 @@ $router->post('/addorder','Order\OrderController@createOrder');
 $router->post('/orderlist','Order\OrderController@Orderlist');
 //订单详情页
 $router->post('/order_detail','Order\OrderController@orderDetail');
+
+//删除订单
+$router->post('/order_delete','Order\OrderController@orderDelete');
 //商品点赞
 
 $router->post('/give_a_like','Order\GoodsController@give_a_like');

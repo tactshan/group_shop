@@ -61,7 +61,7 @@ class CenterController extends Controller
             $where=[
                 'uid'=>$uid
             ];
-            $data=OrderModel::where($where)->get()->toArray();
+            $data=OrderModel::where($where)->where('order_status','!=',2)->get()->toArray();
 
         }else{
             $collection_key='goods_give_a_like:'.$uid;
@@ -86,7 +86,7 @@ class CenterController extends Controller
             $info=[
                 'code'=>40111,
                 'msg'=>"您还没有进行此操作",
-            ];
+            ] ;
             echo json_encode($info);
         }
     }
