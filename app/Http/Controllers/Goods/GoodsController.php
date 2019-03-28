@@ -71,8 +71,33 @@ class GoodsController extends Controller
     public function give_a_like(Request $request)
     {
         $goods_id = $request->input('goods_id');
-        //根据商品id增加点赞数量
-        $like_key = 'goods_give_a_like';
+        $uid = $request->input('uid');
+        $token = $request->input('token');
+        //验证防非法
+        $response=$this->checkToken($token,$uid);
+        if($response=='true'){
+            //根据商品id增加点赞数量
+            $like_key = 'goods_give_a_like:'.$uid;
+            $name = $goods_id;
+            //查询有序集合中是否存在点赞
+            $num = Redis::zScore($like_key,$name);
+            if($num){
+                //做累加
+                $res = Redis::zIncrby($like_key,1,$name);
+            }else{
+                //做新增
+                $res = Redis::zAdd($like_key,1,$name);
+            }
+            if(!$res){
+                $response=[
+                  'code'=>0,
+                    'msg'=>'success'
+                ];
+                echo json_encode($response);
+            }
+        }else{
+            echo $response;
+        }
 
     }
 
