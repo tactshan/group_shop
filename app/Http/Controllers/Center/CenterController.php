@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Center;
 
+use App\Model\CartModel;
 use App\Model\GoodsModel;
 use App\Model\OrderModel;
 use App\Model\UserModel;
@@ -63,6 +64,11 @@ class CenterController extends Controller
             ];
             $data=OrderModel::where($where)->where('order_status','!=',2)->get()->toArray();
 
+        }else if($type='cart'){
+            $where=[
+                'uid'=>$uid
+            ];
+            $data=CartModel::where($where)->get()->toArray();
         }else{
             $collection_key='goods_give_a_like:'.$uid;
             $collectInfo=Redis::zRange($collection_key, 0, -1, true);
