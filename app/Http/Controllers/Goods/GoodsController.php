@@ -154,7 +154,7 @@ class GoodsController extends Controller
                 Redis::zIncrBy($collect,1,$goods_id);
                 Redis::zAdd($collect_u,$time,$goods_id);
                 $arr=[
-                    'error'=>0,
+                    'code'=>0,
                     'msg'=>'收藏成功'
                 ];
                 echo json_encode($arr);
