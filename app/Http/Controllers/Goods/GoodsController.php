@@ -37,8 +37,10 @@ class GoodsController extends Controller
         $uid = $request->input('uid');
         $goods_id = $request->input('goods_id');
         //记录浏览此商品的用户
-        $access_uid_key="goods_access:".$goods_id;
-        Redis::zAdd($access_uid_key,1,$uid);
+        if(!empty($uid)){
+            $access_uid_key="goods_access:".$goods_id;
+            Redis::zAdd($access_uid_key,1,$uid);
+        }
         //记录浏览量
         $access_key="goods_access";
         $num=Redis::hGet($access_key,"$goods_id");
@@ -52,6 +54,7 @@ class GoodsController extends Controller
         //获取商品详情缓存数据
         $key="goods_id:".$goods_id;
         $goods_info=Redis::hget($key,'goods');
+        print_r($goods_info);die;
         if(!empty($goods_info)){
             $data=unserialize($goods_info);
         }else{
