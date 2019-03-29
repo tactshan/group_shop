@@ -54,7 +54,6 @@ class GoodsController extends Controller
         //获取商品详情缓存数据
         $key="goods_id:".$goods_id;
         $goods_info=Redis::hget($key,'goods');
-        print_r($goods_info);die;
         if(!empty($goods_info)){
             $data=unserialize($goods_info);
         }else{
