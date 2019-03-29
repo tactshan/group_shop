@@ -206,7 +206,7 @@ class CenterController extends Controller
                     'code'=>1,
                     'msg'=>'添加成功'
                 ];
-                echo json_encode($info);
+                echo json_encode($info);die;
             }else{
                 $info=[
                     'code'=>50001,
