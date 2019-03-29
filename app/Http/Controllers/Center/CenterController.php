@@ -215,7 +215,7 @@ class CenterController extends Controller
                 echo json_encode($info);
             }
         }else{
-            echo json_encode($response);die;
+            echo $response;die;
         }
     }
 }
