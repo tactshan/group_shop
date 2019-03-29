@@ -47,6 +47,7 @@ class CenterController extends Controller
     public function  effect(Request $request){
         $uid=$request->input('uid');
         $type=$request->input('type');
+        //收藏列表
         if($type=='collection'){
             $collection_key='collect_number_uid:'.$uid;
             $collectInfo=Redis::zRange($collection_key, 0, -1, true);
@@ -58,7 +59,7 @@ class CenterController extends Controller
                 $goodsInfo=GoodsModel::where($goodsWhere)->first()->toArray();
                 $data[]=$goodsInfo;
             }
-        }elseif($type=='order'){
+        }elseif($type=='order'){    //订单列表
             $where=[
                 'uid'=>$uid
             ];
@@ -71,11 +72,22 @@ class CenterController extends Controller
                     $data[$k]['order_status']='已支付';
                 }
             }
-        }elseif($type=='cart'){
+        }elseif($type=='cart'){    //购物车列表
             $where=[
                 'uid'=>$uid
             ];
             $data=CartModel::where($where)->get()->toArray();
+        }elseif ($type=='friend'){     //好友列表
+            $user_friend_key="user_friend:".$uid;
+            $user_info=Redis::zRange($user_friend_key, 0, -1, true);
+            $data=[];
+            foreach ($user_info as $k=>$v){
+                $userWhere=[
+                    'uid'=>$k,
+                ];
+                $userInfo=UserModel::where($userWhere)->first()->toArray();
+                $data[]=$userInfo;
+            }
         }else{
             $collection_key='goods_give_a_like:'.$uid;
             $collectInfo=Redis::zRange($collection_key, 0, -1, true);
@@ -103,4 +115,7 @@ class CenterController extends Controller
             echo json_encode($info);
         }
     }
+
+
+    //添加好友
 }
