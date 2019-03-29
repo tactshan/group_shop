@@ -149,8 +149,8 @@ class CenterController extends Controller
             $up_data = [
                 'u_pwd' => $new_pwd
             ];
-            $res = UserModel::where($up_where)->update($up_data);
-            if ($res) {
+            $res1 = UserModel::where($up_where)->update($up_data);
+            if ($res1) {
                 $arr = [
                     'code' => 0,
                     'msg' => '修改成功'
