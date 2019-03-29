@@ -147,7 +147,7 @@ class CenterController extends Controller
                 'uid' => $uid
             ];
             $up_data = [
-                'u_pwd' => $new_pwd
+                'u_pwd' => md5($new_pwd)
             ];
             $res1 = UserModel::where($up_where)->update($up_data);
             if ($res1) {
