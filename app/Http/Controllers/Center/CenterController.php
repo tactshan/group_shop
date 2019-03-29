@@ -17,30 +17,31 @@ class CenterController extends Controller
      * @param Request $request
      */
     public function index(Request $request){
-        $uid=$request->input('uid');
-        $token=$request->input('token');
-        $response=$this->checkToken($token,$uid);
-        if($response!='true'){
-            echo $response;
-        }else{
-            $where=[
-                'uid'=>$uid,
-            ];
-            $userInfo=UserModel::where($where)->first()->toArray();
-            if($userInfo){
-                $info=[
-                    'code'=>1,
-                    'msg'=>$userInfo
-                ];
-                echo json_encode($info);
-            }else{
-                $info=[
-                    'code'=>40010,
-                    'msg'=>'非法登录'
-                ];
-                return  json_encode($info);
-            }
-        }
+        echo '111';
+//        $uid=$request->input('uid');
+//        $token=$request->input('token');
+//        $response=$this->checkToken($token,$uid);
+//        if($response!='true'){
+//            echo $response;
+//        }else{
+//            $where=[
+//                'uid'=>$uid,
+//            ];
+//            $userInfo=UserModel::where($where)->first()->toArray();
+//            if($userInfo){
+//                $info=[
+//                    'code'=>1,
+//                    'msg'=>$userInfo
+//                ];
+//                echo json_encode($info);
+//            }else{
+//                $info=[
+//                    'code'=>40010,
+//                    'msg'=>'非法登录'
+//                ];
+//                return  json_encode($info);
+//            }
+//        }
     }
 
     //功能模块
