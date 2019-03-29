@@ -54,3 +54,7 @@ $router->post('/addfriend','Center\CenterController@addFriend');
 //用户个人中心
 $router->post('/usercenter','Center\CenterController@userCenter');
 
+//共同好友
+$router->post('/friend','Friend\FriendController@Mutual_friend');
+
+
