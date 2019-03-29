@@ -21,7 +21,7 @@ class CenterController extends Controller
         $token=$request->input('token');
         $response=$this->checkToken($token,$uid);
         if($response!='true'){
-            echo $response;
+            echo $response;die;
         }else{
             $where=[
                 'uid'=>$uid,
@@ -32,7 +32,7 @@ class CenterController extends Controller
                     'code'=>1,
                     'msg'=>$userInfo
                 ];
-                echo json_encode($info);
+                echo json_encode($info);die;
             }else{
                 $info=[
                     'code'=>40010,
@@ -106,13 +106,13 @@ class CenterController extends Controller
                 'code'=>1,
                 'msg'=>$data
             ];
-            echo json_encode($info);
+            echo json_encode($info);die;
         }else{
             $info=[
                 'code'=>40111,
                 'msg'=>"您还没有进行此操作",
             ] ;
-            echo json_encode($info);
+            echo json_encode($info);die;
         }
     }
     /**
@@ -135,7 +135,7 @@ class CenterController extends Controller
             'code'=>1,
             'msg'=>$userInfo
         ];
-        echo json_encode($info);
+        echo json_encode($info);die;
     }
 
     /**
@@ -154,13 +154,13 @@ class CenterController extends Controller
                     'code'=>1,
                     'msg'=>'添加成功'
                 ];
-                echo json_encode($info);
+                echo json_encode($info);die;
             }else{
                 $info=[
                     'code'=>50001,
                     'msg'=>'添加失败'
                 ];
-                echo json_encode($info);
+                echo json_encode($info);die;
             }
         }else{
             echo json_encode($response);die;
