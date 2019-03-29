@@ -45,6 +45,8 @@ $router->post('/collect','Goods\GoodsController@collect');
 $router->post('/give_a_like','Goods\GoodsController@give_a_like');
 //个人中心
 $router->post('/center','Center\CenterController@index');
+//修改密码
+$router->post('/changepwd','Center\CenterController@changepwd');
 //功能模块
 $router->post('/effect','Center\CenterController@effect');
 //添加好友
