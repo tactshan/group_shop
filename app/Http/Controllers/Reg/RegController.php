@@ -35,7 +35,8 @@ class RegController extends Controller
                 'u_name'=>$data['u_name'],
                 'u_pwd'=>$pwd,
                 'u_email'=>$data['u_email'],
-                'u_age'=>$data['u_age']
+                'u_age'=>$data['u_age'],
+                'u_phone'=>$data['u_phone']
             ];
             $rs=UserModel::insertGetId($arr);
             if($rs){
