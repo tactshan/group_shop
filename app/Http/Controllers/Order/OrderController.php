@@ -212,5 +212,14 @@ class OrderController extends Controller
             echo json_encode($response);die;
         }
     }
-    
+    //删除过期订单
+    public function crontab(){
+        $time=time()-3600;
+        $res=OrderModel::where('c_time','<',$time)->where(['order_status'=>0])->get()->toArray();
+        foreach($res as $k=>$v){
+            $order_id=$v['order_id'];
+            OrderModel::where(['order_id'=>$order_id])->delete();
+        }
+        echo 1;
+    }
 }
