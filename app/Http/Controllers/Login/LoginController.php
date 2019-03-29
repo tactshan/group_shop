@@ -23,10 +23,22 @@ class LoginController extends Controller
     {
         $account = $request->input('account');
         $pwd = $request->input('pwd');
-        $where=[
-          'u_name'=>$account
-        ];
+        $e=strpos($account,'@');
+        if(!empty($e)){
+            $where=[
+                'u_email'=>$account
+            ];
+        }else if(empty($e)&&11==strlen($account)){
+            $where=[
+                'u_phone'=>$account
+            ];
+        }else{
+            $where=[
+                'u_name'=>$account
+            ];
+        }
         $data = UserModel::where($where)->first();
+        //var_dump($where);die;
         if(empty($data) || $data->u_pwd!==md5($pwd)){
             $resopnse=[
               'code'=>50001,
