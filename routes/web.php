@@ -47,4 +47,8 @@ $router->post('/give_a_like','Goods\GoodsController@give_a_like');
 $router->post('/center','Center\CenterController@index');
 //功能模块
 $router->post('/effect','Center\CenterController@effect');
+//添加好友
+$router->post('/addfriend','Center\CenterController@addFriend');
+//用户个人中心
+$router->post('/usercenter','Center\CenterController@userCenter');
 
