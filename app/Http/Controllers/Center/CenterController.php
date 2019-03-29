@@ -135,7 +135,7 @@ class CenterController extends Controller
                 echo json_encode($arr);
                 die;
             }
-            if ($res->u_pwd !== $pwd) {
+            if ($res->u_pwd !== md5($pwd)) {
                 $arr = [
                     'code' => 404,
                     'msg' => '原密码错误'
