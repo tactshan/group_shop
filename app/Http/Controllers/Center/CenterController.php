@@ -115,56 +115,58 @@ class CenterController extends Controller
             echo json_encode($info);
         }
     }
-<<<<<<< HEAD
-    public function changepwd(Request $request){
-        $pwd=$request->input('u_pwd');
-        $new_pwd=$request->input('new_pwd');
-        $uid=$request->input('uid');
-        $token=$request->input('token');
-        $response=$this->checkToken($token,$uid);
-        if($response=='true'){
-            $where=[
-                'uid'=>$uid
+    public function changepwd(Request $request)
+    {
+        $pwd = $request->input('u_pwd');
+        $new_pwd = $request->input('new_pwd');
+        $uid = $request->input('uid');
+        $token = $request->input('token');
+        $response = $this->checkToken($token, $uid);
+        if ($response == 'true') {
+            $where = [
+                'uid' => $uid
             ];
-            $res=UserModel::where($where)->first();
-            if(empty($res)){
-                $arr=[
-                    'code'=>400,
-                    'msg'=>'用户不存在'
-                ];
-                echo json_encode($arr);die;
-            }
-            if($res->u_pwd!==$pwd){
-                $arr=[
-                    'code'=>404,
-                    'msg'=>'原密码错误'
-                ];
-                echo json_encode($arr);die;
-            }
-            $up_where=[
-                'uid'=>$uid
-            ];
-            $up_data=[
-                'u_pwd'=>$new_pwd
-            ];
-            $res=UserModel::where($up_where)->update($up_data);
-            if($res){
-                $arr=[
-                    'code'=>0,
-                    'msg'=>'修改成功'
+            $res = UserModel::where($where)->first();
+            if (empty($res)) {
+                $arr = [
+                    'code' => 400,
+                    'msg' => '用户不存在'
                 ];
                 echo json_encode($arr);
-            }else{
-                $arr=[
-                    'code'=>500,
-                    'msg'=>'修改失败'
+                die;
+            }
+            if ($res->u_pwd !== $pwd) {
+                $arr = [
+                    'code' => 404,
+                    'msg' => '原密码错误'
+                ];
+                echo json_encode($arr);
+                die;
+            }
+            $up_where = [
+                'uid' => $uid
+            ];
+            $up_data = [
+                'u_pwd' => $new_pwd
+            ];
+            $res = UserModel::where($up_where)->update($up_data);
+            if ($res) {
+                $arr = [
+                    'code' => 0,
+                    'msg' => '修改成功'
+                ];
+                echo json_encode($arr);
+            } else {
+                $arr = [
+                    'code' => 500,
+                    'msg' => '修改失败'
                 ];
                 echo json_encode($arr);
             }
-        }else{
+        } else {
             echo $response;
         }
-=======
+    }
     /**
      * 进入好友个人中心
      */
@@ -186,7 +188,6 @@ class CenterController extends Controller
             'msg'=>$userInfo
         ];
         echo json_encode($info);
->>>>>>> e70b3b3460eaea0716583a178b409a433a0460ed
     }
 
     /**
