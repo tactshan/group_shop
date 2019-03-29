@@ -63,7 +63,7 @@ class CenterController extends Controller
             $where=[
                 'uid'=>$uid
             ];
-            $data=OrderModel::where($where)->where('order_status','!=',2)->get()->toArray();
+            $data=OrderModel::where($where)->where('order_status','!=',2)->orderBy('c_time','desc')->get()->toArray();
             foreach ($data as $k=>$v){
                 $data[$k]['c_time']=date('Y-m-d H:i:s',$v['c_time']);
                 if($v['order_status']==0){
@@ -78,8 +78,8 @@ class CenterController extends Controller
             ];
             $data=CartModel::where($where)->get()->toArray();
         }elseif ($type=='friend'){     //好友列表
-            $user_friend_key="user_friend:".$uid;
-            $user_info=Redis::zRange($user_friend_key, 0, -1, true);
+            $friend_key='friend_redis:'.$uid;
+            $user_info=Redis::zRange($friend_key, 0, -1, true);
             $data=[];
             foreach ($user_info as $k=>$v){
                 $userWhere=[
@@ -115,7 +115,55 @@ class CenterController extends Controller
             echo json_encode($info);
         }
     }
+    /**
+     * 进入好友个人中心
+     */
+    public function userCenter(Request $request){
+        $user_id=$request->input('user_id');
+        if(empty($user_id)){
+            $info=[
+                'code'=>50000,
+                'msg'=>'该用户不存在'
+            ];
+            echo json_encode($info);die;
+        }
+        $where=[
+            'uid'=>$user_id
+        ];
+        $userInfo=UserModel::where($where)->first()->toArray();
+        $info=[
+            'code'=>1,
+            'msg'=>$userInfo
+        ];
+        echo json_encode($info);
+    }
 
-
-    //添加好友
+    /**
+     * 添加好友
+     */
+    public function addFriend(Request $request){
+        $uid=$request->input('uid');
+        $user_id=$request->input('user_id');
+        $token=$request->input('token');
+        $response=$this->checkToken($token,$uid);
+        if($response=='true'){
+            $friend_key='friend_redis:'.$uid;
+            $rs=Redis::zAdd($friend_key,1,$user_id);
+            if($rs){
+                $info=[
+                    'code'=>1,
+                    'msg'=>'添加成功'
+                ];
+                echo json_encode($info);
+            }else{
+                $info=[
+                    'code'=>50001,
+                    'msg'=>'添加失败'
+                ];
+                echo json_encode($info);
+            }
+        }else{
+            echo json_encode($response);die;
+        }
+    }
 }
